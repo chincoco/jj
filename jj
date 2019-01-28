@@ -1,0 +1,23 @@
+            public static List<Student> DohvatiListu()
+            {
+                List<Student> lStudenti = new List<Student>(); //funkcija da iscitamo iz xmla 
+                string sXml = "";
+                StreamReader oSr = new StreamReader("studenti.xml");
+                using (oSr)
+                {
+                    sXml = oSr.ReadToEnd();
+                }
+
+                XmlDocument oXml = new XmlDocument();
+                oXml.LoadXml(sXml);
+                XmlNodeList oNodes = oXml.SelectNodes("//studenti/student");
+                foreach (XmlNode oNode in oNodes)
+                { //Console.WriteLine("Jmbag: " + oNode["jmbag"].InnerText); sad ispisuje svaki jmbag od studenta, ako mi je xml child ovo mi je za tooo 
+                    int nJmbag = Convert.ToInt32(oNode["jmbag"].InnerText);
+                    string sIme = oNode["ime"].InnerText;
+                    string sPrezime = oNode["prezime"].InnerText;
+                    int nBodovi = Convert.ToInt32(oNode["bodovi"].InnerText);
+                    Student oStudent = new Student(nJmbag, sIme, sPrezime, nBodovi); lStudenti.Add(oStudent);
+                }
+                return lStudenti;
+            }
